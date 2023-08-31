@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form validation</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="jquery-ui/jquery-ui.min.css">
+    <script type="text/javascript" src="jquery-3.7.0.min.js"></script>
+    <script type="text/javascript" src="jquery-ui/jquery-ui.js"></script>
+    <style type="text/css">
+        body {
+            background-color: #8BC6EC;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 22px;
+
+        }
+
+        #form-container {
+            margin: 10vh auto 0 auto;
+            width: 400px;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            border-radius: 30px;
+            padding: 20px;
+            box-shadow: 2px 2px 30px rgb(119, 119, 119);
+        }
+
+        #elements form {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+
+        #elements form input {
+            margin-bottom: 15px;
+            color: rgb(49, 46, 46);
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+            border-radius: 5px;
+            border: none;
+            padding: 15px;
+            box-shadow: 0px 1px 5px grey;
+        }
+
+        #elements form label {
+            color: rgb(49, 46, 46);
+            margin-bottom: 10px;
+
+        }
+
+        .button-div {
+            text-align: center;
+
+        }
+
+        .button-div button {
+            padding: 13px 30px;
+            margin-top: 25px;
+            border-radius: 10px;
+            border: none;
+            color: rgb(253, 178, 108);
+            font-size: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            border: 2px solid rgb(253, 178, 108);
+            background-color: transparent;
+            box-shadow: 2px 2px 10px grey;
+            cursor: pointer;
+
+        }
+
+        .button-div button:hover {
+            color: black;
+            background-color: rgb(255, 192, 132);
+            box-shadow: 2px 2px 10px rgb(255, 192, 132);
+            transition: .3s ease-in-out;
+            text-shadow: 1px 1px 10px grey;
+        }
+
+        .form-paragraph {
+            font-size: 15px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            color: Red;
+            padding: 4px;
+        }
+
+        #ragH-tag {
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            margin: 10px;
+            font-size: 30px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="form-container">
+        <h1 id="ragH-tag"> Registration </h1>
+        <div id="elements">
+            <form>
+                <label for="Name">Name</label>
+                <input type="text" placeholder="Your Name" id="Name" size="25" minlength="3">
+                <p id="nameParagraph" class="form-paragraph"></p>
+                <label for="email">Email</label>
+                <input type="email" placeholder="example@gmail.com" id="email">
+                <p id="emailParagraph" class="form-paragraph"></p>
+                <label for="Password">Password</label>
+                <input type="password" id="password">
+                <p id="passwordParagraph" class="form-paragraph"></p>
+                <label for="Password">Confirm Password</label>
+                <input type="password" id="confirm-password">
+                <p id="confirmParagraph" class="form-paragraph"></p>
+            </form>
+            <div class="button-div">
+                <button id="submit-button">Submit</button>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    </div>
+    <script type="text/javascript">
+        function isEmail(email) {
+            var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            return regex.test(email);
+        }
+        function DisplayNotOk(HTMLtext, idName, paragraphid) {
+            $("#" + idName + "").css("border", "2px solid red");
+            $("#" + paragraphid + "").html(HTMLtext);
+            $("#" + idName + "").css("margin", "0");
+        }
+        function DisplayOk(idName, paragraphid) {
+            $("#" + paragraphid + "").html("");
+            $("#" + idName + "").css("border", "2px solid rgb(71, 255, 71)");
+            $("#" + idName + "").css("margin-bottom", "15px");
+        }
+        
+
+        $("#submit-button").click(function () {
+            if ($("#Name").val() == "") {
+                DisplayNotOk("Please enter your name.", "Name", "nameParagraph")
+            } else {
+                DisplayOk("Name", "nameParagraph");
+                var Name = $("#Name").val();
+                var Namelength = Name.length;
+                if (Namelength < 3) {
+                    $("#Name").css("border", "2px solid red");
+                    $("#nameParagraph").html("Please enter at least 3 characters");
+                    $("#Name").css("margin", "0");
+                } else {
+                    $("#nameParagraph").html("");
+                    $("#Name").css("border", "2px solid rgb(71, 255, 71)");
+                    $("#Name").css("margin-bottom", "15px");
+                }
+
+            }
+            if ($("#email").val() == "") {
+                DisplayNotOk("Please enter an email address", "email", "emailParagraph");
+            } else {
+                DisplayOk("email", "emailParagraph")
+                if (isEmail($("#email").val()) == false) {
+                    $("#emailParagraph").html("Please enter an valid email address");
+                    $("#email").css("border", "2px solid red");
+                    $("#email").css("margin-bottom", "0");
+                } else {
+                    $("#emailParagraph").html("");
+                    $("#email").css("margin-bottom", "15px");
+                }
+            }
+            if ($("#password").val() == "") {
+                DisplayNotOk("Please enter Password", "password", "passwordParagraph");
+            } else {
+                DisplayOk("password", "passwordParagraph");
+                if(($("#password").val()).length <= 8){
+                    DisplayNotOk("Please enter atleast 8 characters", "password", "passwordParagraph");
+                }else if(!(/^#[A-Za-z0-9\d=!\-@._*]+$/.test($("#password").val()))){
+                    DisplayNotOk("Please enter Valid characters", "password", "passwordParagraph");
+                } else if(!(/\d/.test($("#password").val()))){
+                    DisplayNotOk("Password must contain at least 1 digit","password", "passwordParagraph");
+                }else if(!(/[A-Z]/.test($("#password").val()))){
+                    DisplayNotOk("Password must have an uppercase letter","password", "passwordParagraph")
+                }
+
+            }
+
+            if ($("#confirm-password").val() == "") {
+                DisplayNotOk("Please enter password again", "confirm-password", "confirmParagraph");
+            } else {
+                DisplayOk("confirm-password", "confirmParagraph");
+                if(($("#password").val()) != ($("#confirm-password").val())){
+                    DisplayNotOk("Password doesn't match", "confirm-password", "confirmParagraph");
+                }else{
+                    DisplayOk("confirm-password", "confirmParagraph");
+                }
+            }
+
+        })
+    </script>
+
+</body>
+
+</html>
